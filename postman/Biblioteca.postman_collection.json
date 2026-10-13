@@ -1,0 +1,627 @@
+{
+  "info": {
+    "name": "API Biblioteca",
+    "description": "API REST de una biblioteca: libros, usuarios (socios) y préstamos. Ejecuta las carpetas en orden sobre la base recién creada con database/libreria.sql.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "prestamoId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1 · Libros",
+      "item": [
+        {
+          "name": "Listar libros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener libro por ISBN",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear libro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Rayuela\",\n  \"autor\": \"Julio Cortázar\",\n  \"añoPublicacion\": \"1963\",\n  \"numeroEjemplares\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear libro sin título (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"\",\n  \"autor\": \"Anónimo\",\n  \"numeroEjemplares\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar libro",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Don Quijote de la Mancha\",\n  \"autor\": \"Miguel de Cervantes\",\n  \"añoPublicacion\": \"1605\",\n  \"numeroEjemplares\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/libros/4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros",
+                "4"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Ejemplares disponibles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros/1/disponibles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros",
+                "1",
+                "disponibles"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar por autor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros/autor/Gabriel García Márquez",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros",
+                "autor",
+                "Gabriel García Márquez"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar por título",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros/titulo/El principito",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros",
+                "titulo",
+                "El principito"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Libro que no existe (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros",
+                "999"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar libro con préstamos (400)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/libros/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "libros",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 · Usuarios",
+      "item": [
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener usuario por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Carlos\",\n  \"apellidos\": \"Ramírez Díaz\",\n  \"correo\": \"carlos@correo.com\",\n  \"contrasena\": \"demo1234\",\n  \"rol\": \"Socio\",\n  \"fechaNacimiento\": \"1999-07-21\",\n  \"telefono\": \"3017778899\",\n  \"direccion\": \"Calle 45 # 10-12\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear usuario con correo repetido (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Otra\",\n  \"apellidos\": \"Ana\",\n  \"correo\": \"ana@correo.com\",\n  \"contrasena\": \"demo1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Luis\",\n  \"apellidos\": \"Pérez Gómez\",\n  \"correo\": \"luis.perez@correo.com\",\n  \"contrasena\": \"demo1234\",\n  \"rol\": \"Socio\",\n  \"estado\": \"Activo\",\n  \"fechaNacimiento\": \"1998-11-02\",\n  \"telefono\": \"3109876543\",\n  \"direccion\": \"Carrera 7 # 45-10\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Usuario que no existe (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios",
+                "999"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar usuario con préstamos (400)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/usuarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "usuarios",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 · Préstamos",
+      "item": [
+        {
+          "name": "Listar préstamos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Préstamos activos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/prestamos/activos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos",
+                "activos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Prestar libro (fecha = hoy)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libro\": {\n    \"isbn\": 4\n  },\n  \"usuario\": {\n    \"id\": 3\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"prestamoId\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Prestar libro sin ejemplares (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libro\": {\n    \"isbn\": 3\n  },\n  \"usuario\": {\n    \"id\": 1\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Prestar a usuario inactivo (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libro\": {\n    \"isbn\": 1\n  },\n  \"usuario\": {\n    \"id\": 4\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Devolver libro",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/prestamos/{{prestamoId}}/devolver",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos",
+                "{{prestamoId}}",
+                "devolver"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Devolver dos veces (400)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/prestamos/{{prestamoId}}/devolver",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos",
+                "{{prestamoId}}",
+                "devolver"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Préstamos de un usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/prestamos/usuario/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos",
+                "usuario",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Préstamos de un libro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/prestamos/libro/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos",
+                "libro",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar préstamo devuelto",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/prestamos/{{prestamoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prestamos",
+                "{{prestamoId}}"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
